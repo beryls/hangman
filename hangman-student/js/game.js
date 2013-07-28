@@ -21,6 +21,8 @@ var word = {
         wordDisplay += "_";
       }
     });
+    console.log(wordDisplay);
+    console.log(wrongLetters);
     return [wordDisplay, wrongLetters];
   }
 };
@@ -31,15 +33,16 @@ var player = {
 
   // Takes a new letter as input and updates the game
   makeGuess: function(letter){
-    guessedLetters.push(letter);
+    this.guessedLetters += (letter);
+    word.checkLetters(this.guessedLetters);
   },
 
   // Check if the player has won and end the game if so
   checkWin: function(wordString){
     if (_.contains(wordString, "_")) {
-      return true;
-    } else {
       return false;
+    } else {
+      return true;
     }
   },
 
@@ -51,19 +54,25 @@ var player = {
 
 var game = {
   // Resets the game
-  resetGame: function(){},
+  resetGame: function(){
+    word.setSecretWord();
+    player.guessedLetters = [];
+  },
 
   // Reveals the answer to the secret word and ends the game
-  giveUp: function(){},
+  giveUp: function(){
+  },
 
   // Update the display with the parts of the secret word guessed, the letters guessed, and the guesses remaining
   updateDisplay: function(secretWordWithBlanks, guessedLetters, guessesLeft){}
 };
 
 window.onload = function(){
-  word.setSecretWord()
+  word.setSecretWord();
   console.log(word.secretWord);
-  wrongLetters = word.checkLetters("aeiou")[1];
+  player.makeGuess("o");
+  debugger;
+  // var wrongLetters = word.checkLetters("aeiou")[1];
   // wrongLettersArray = word.checkLetters(['a', 'e', 'i', 'o', 'u', 'y']);
 
   // Start a new game
