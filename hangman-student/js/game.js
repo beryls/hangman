@@ -102,12 +102,18 @@ window.onload = function(){
   }
 
   guess.onchange = function(event) {
-    console.log(guess.value);
-    player.makeGuess(guess.value);
+    var currentLetter = guess.value.toLowerCase();
+    if (_.contains(player.guessedLetters, currentLetter)) {
+      alert("You've already guessed this letter.");
+      alert("And yeah, we're being kind. We could have just counted this as a wrong letter, you know.");
+    } else {
+      player.makeGuess(currentLetter);
+    }
     guess.value = "";
   }
-  // var wrongLetters = word.checkLetters(player.guessedLetters)[1];
-  // wrongLettersArray = word.checkLetters(['a', 'e', 'i', 'o', 'u', 'y']);
+
+  // get one letter at a time
+  // reject guesses with letters already guessed
 
   // Start a new game
   // Add event listener to the letter input field to grab letters that are guessed
