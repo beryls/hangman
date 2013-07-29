@@ -34,7 +34,8 @@ var player = {
   // Takes a new letter as input and updates the game
   makeGuess: function(letter){
     this.guessedLetters += (letter);
-    word.checkLetters(this.guessedLetters);
+    var results = word.checkLetters(this.guessedLetters);
+    game.updateDisplay(results[0], this.guessedLetters, this.MAX_GUESSES-results[1].length);
   },
 
   // Check if the player has won and end the game if so
@@ -48,7 +49,7 @@ var player = {
 
   // Check if the player has lost and end the game if so
   checkLose: function(wrongLetters){
-    return wrongLetters.length >= MAX_GUESSES;
+    return wrongLetters.length >= this.MAX_GUESSES;
   }
 };
 
@@ -57,22 +58,43 @@ var game = {
   resetGame: function(){
     word.setSecretWord();
     player.guessedLetters = [];
+    var wordDisplay = "";
+    _.each(word.secretWord, function(letter){
+        wordDisplay += "_";
+    });
+    game.updateDisplay(wordDisplay, player.guessedLetters, player.MAX_GUESSES);
   },
 
   // Reveals the answer to the secret word and ends the game
   giveUp: function(){
+    alert("You lose!  The answer was " + word.secretWord);
+    this.resetGame();
   },
 
   // Update the display with the parts of the secret word guessed, the letters guessed, and the guesses remaining
-  updateDisplay: function(secretWordWithBlanks, guessedLetters, guessesLeft){}
+  updateDisplay: function(secretWordWithBlanks, guessedLetters, guessesLeft){
+    document.getElementById("wordString").innerText = secretWordWithBlanks;
+    document.getElementById("guessedLetters").innerText = guessedLetters;
+    document.getElementById("guessesLeft").innerText = guessesLeft;
+  }
 };
 
 window.onload = function(){
-  word.setSecretWord();
+  game.resetGame();
   console.log(word.secretWord);
-  player.makeGuess("o");
   debugger;
-  // var wrongLetters = word.checkLetters("aeiou")[1];
+
+  var surrender = document.getElementById("giveUpButton");
+  var reset = document.getElementById("resetButton");
+
+  surrender.onclick = function(event) {
+    game.giveUp();
+  }
+
+  reset.onclick = function(event) {
+    game.resetGame();
+  }
+  // var wrongLetters = word.checkLetters(player.guessedLetters)[1];
   // wrongLettersArray = word.checkLetters(['a', 'e', 'i', 'o', 'u', 'y']);
 
   // Start a new game
