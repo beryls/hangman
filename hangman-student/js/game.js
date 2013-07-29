@@ -85,6 +85,11 @@ var game = {
 };
 
 window.onload = function(){
+  // Start a new game
+  // Add event listener to the letter input field to grab letters that are guessed
+  // Add event listener to the reset button to reset the game when clicked
+  // Add event listener to the give up button to give up when clicked
+
   game.resetGame();
   console.log(word.secretWord);
   // debugger;
@@ -103,20 +108,17 @@ window.onload = function(){
 
   guess.onchange = function(event) {
     var currentLetter = guess.value.toLowerCase();
-    if (_.contains(player.guessedLetters, currentLetter)) {
-      alert("You've already guessed this letter.");
-      alert("And yeah, we're being kind. We could have just counted this as a wrong letter, you know.");
+    var singleLetter = /^[a-z]$/;
+    if (singleLetter.test(currentLetter)) {
+      if (_.contains(player.guessedLetters, currentLetter)) {
+        alert("You've already guessed this letter.");
+        alert("And yeah, we're being kind. We could have just counted this as a wrong letter, you know.");
+      } else {
+        player.makeGuess(currentLetter);
+      }
     } else {
-      player.makeGuess(currentLetter);
+      alert("We need a single letter, from a to z. Try that again.");
     }
     guess.value = "";
   }
-
-  // get one letter at a time
-  // reject guesses with letters already guessed
-
-  // Start a new game
-  // Add event listener to the letter input field to grab letters that are guessed
-  // Add event listener to the reset button to reset the game when clicked
-  // Add event listener to the give up button to give up when clicked
 };
