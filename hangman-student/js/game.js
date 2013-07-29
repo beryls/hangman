@@ -91,8 +91,6 @@ window.onload = function(){
   // Add event listener to the give up button to give up when clicked
 
   game.resetGame();
-  console.log(word.secretWord);
-  // debugger;
 
   var surrender = document.getElementById("giveUpButton");
   var reset = document.getElementById("resetButton");
