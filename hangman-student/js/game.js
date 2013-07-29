@@ -21,8 +21,6 @@ var word = {
         wordDisplay += "_";
       }
     });
-    console.log(wordDisplay);
-    console.log(wrongLetters);
     return [wordDisplay, wrongLetters];
   }
 };
@@ -36,6 +34,13 @@ var player = {
     this.guessedLetters += (letter);
     var results = word.checkLetters(this.guessedLetters);
     game.updateDisplay(results[0], this.guessedLetters, this.MAX_GUESSES-results[1].length);
+    if (this.checkWin(results[0])) {
+      alert("You win! You correctly guessed " + word.secretWord);
+      game.resetGame();
+    }
+    if (this.checkLose(results[1])) {
+      game.giveUp();
+    }
   },
 
   // Check if the player has won and end the game if so
@@ -82,10 +87,11 @@ var game = {
 window.onload = function(){
   game.resetGame();
   console.log(word.secretWord);
-  debugger;
+  // debugger;
 
   var surrender = document.getElementById("giveUpButton");
   var reset = document.getElementById("resetButton");
+  var guess = document.getElementById("letterField");
 
   surrender.onclick = function(event) {
     game.giveUp();
@@ -93,6 +99,12 @@ window.onload = function(){
 
   reset.onclick = function(event) {
     game.resetGame();
+  }
+
+  guess.onchange = function(event) {
+    console.log(guess.value);
+    player.makeGuess(guess.value);
+    guess.value = "";
   }
   // var wrongLetters = word.checkLetters(player.guessedLetters)[1];
   // wrongLettersArray = word.checkLetters(['a', 'e', 'i', 'o', 'u', 'y']);
